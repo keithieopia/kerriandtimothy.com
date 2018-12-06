@@ -1,0 +1,106 @@
+<html>
+<head>
+<style>
+html, body {
+	height: 100%;
+	
+	font-variant: small-caps;
+	background-color: #ffffba;
+	color: #ffdfba;
+	font-size: 3.2vw;
+}
+
+#container {
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+#countdown {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.pair {
+	display: inline-block;
+	
+	padding: 1em;
+	border: 1px solid #ffdfba;
+	
+	background-color: rgba(255,255,255,.75);
+}
+
+span {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+label {
+	font-size: 1em;
+}
+
+
+</style>
+</head>
+<body>
+<div id="container">
+	<div id="countdown">
+		<div class="pair">
+		<span id="weeks"></span><br>
+		<label for="weeks">Weeks</label>
+		</div>
+
+		<div class="pair">
+		<span id="days"></span><br>
+		<label for="days">Days</label>
+		</div>
+		
+		<div class="pair">
+		<span id="hours"></span><br>
+		<label for="hours">Hours</label>
+		</div>
+		
+		<div class="pair">
+		<span id="minutes"></span><br>
+		<label for="minutes">Minutes</label>
+		</div>
+		
+		<div class="pair">
+		<span id="seconds"></span><br>
+		<label for="seconds">Seconds</label>
+		</div>
+	</div>
+</div>
+<script>
+function setTime() {
+	var _second = 1000;
+	var _minute = _second * 60;
+	var _hour = _minute * 60;
+	var _day = _hour * 24;
+	var _week = _day * 7;
+
+	var now = new Date();
+	var distance = birth - now;
+
+        var weeks = Math.floor(distance / _week);
+	var days = Math.floor((distance % _week) / _day);
+    	var hours = Math.floor((distance % _day) / _hour);
+    	var minutes = Math.floor((distance % _hour) / _minute);
+    	var seconds = Math.floor((distance % _minute) / _second);	
+
+	document.getElementById("seconds").innerHTML = ('0' + seconds).slice(-2);
+	document.getElementById("minutes").innerHTML = ('0' + minutes).slice(-2);
+	document.getElementById("hours").innerHTML = hours;
+	document.getElementById("days").innerHTML = days;
+	document.getElementById("weeks").innerHTML = weeks;
+}
+
+var birth = new Date('06/23/2019 00:00 AM EST');
+
+setTime();
+setInterval(setTime, 1000);
+</script>
+</body>
+</html>
