@@ -7,7 +7,7 @@ html, body {
 	font-variant: small-caps;
 	background-color: #ffffba;
 	color: #ffdfba;
-	font-size: 3.2vw;
+	font-size: 2vw;
 }
 
 #container {
@@ -16,11 +16,16 @@ html, body {
     display: table;
 }
 
+#row {
+	margin-bottom: .25em;
+}
+
 #countdown {
     display: table-cell;
     height: 100%;
     vertical-align: middle;
     text-align: center;
+
 }
 
 .pair {
@@ -41,63 +46,143 @@ label {
 	font-size: 1em;
 }
 
+.name {
+	font-size: 1em;
+	font-style: oblique;
+	
+}
 
 </style>
 </head>
 <body>
 <div id="container">
 	<div id="countdown">
+	<div id="row">
+	    <div class="pair name">Q</div>
+	    
 		<div class="pair">
-		<span id="weeks"></span><br>
-		<label for="weeks">Weeks</label>
+		<span id="qYears"></span><br>
+		<label for="qYears">Years</label>
 		</div>
 
 		<div class="pair">
-		<span id="days"></span><br>
-		<label for="days">Days</label>
+		<span id="qMonths"></span><br>
+		<label for="qMonths">Months</label>
+		</div>
+
+		<div class="pair">
+		<span id="qWeeks"></span><br>
+		<label for="qWeeks">Weeks</label>
+		</div>
+
+		<div class="pair">
+		<span id="qDays"></span><br>
+		<label for="qDays">Days</label>
 		</div>
 		
 		<div class="pair">
-		<span id="hours"></span><br>
-		<label for="hours">Hours</label>
+		<span id="qHours"></span><br>
+		<label for="qHours">Hours</label>
 		</div>
 		
 		<div class="pair">
-		<span id="minutes"></span><br>
-		<label for="minutes">Minutes</label>
+		<span id="qMinutes"></span><br>
+		<label for="qMinutes">Minutes</label>
 		</div>
 		
 		<div class="pair">
-		<span id="seconds"></span><br>
-		<label for="seconds">Seconds</label>
+		<span id="qSeconds"></span><br>
+		<label for="qSeconds">Seconds</label>
+		</div>
+	</div>
+	
+	<div id="row">
+		<div class="pair name">W</div>
+		
+		<div class="pair">
+		<span id="wYears"></span><br>
+		<label for="wYears">Years</label>
+		</div>
+
+		<div class="pair">
+		<span id="wMonths"></span><br>
+		<label for="wMonths">Months</label>
+		</div>
+
+		<div class="pair">
+		<span id="wWeeks"></span><br>
+		<label for="wWeeks">Weeks</label>
+		</div>
+
+		<div class="pair">
+		<span id="wDays"></span><br>
+		<label for="wDays">Days</label>
+		</div>
+		
+		<div class="pair">
+		<span id="wHours"></span><br>
+		<label for="wHours">Hours</label>
+		</div>
+		
+		<div class="pair">
+		<span id="wMinutes"></span><br>
+		<label for="wMinutes">Minutes</label>
+		</div>
+		
+		<div class="pair">
+		<span id="wSeconds"></span><br>
+		<label for="wSeconds">Seconds</label>
 		</div>
 	</div>
 </div>
 <script>
-function setTime() {
+function calcTime(birthday) {
 	var _second = 1000;
 	var _minute = _second * 60;
 	var _hour = _minute * 60;
 	var _day = _hour * 24;
 	var _week = _day * 7;
+	var _month = _day * 30.42;
+	var _year = _day * 365.25;
 
 	var now = new Date();
-	var distance = birth - now;
+	var birth = new Date(birthday);
+	var distance = now - birth;
 
-        var weeks = Math.floor(distance / _week);
+	var years = Math.floor(distance / _year);
+	var months = Math.floor((distance % _year) / _month);
+    var weeks = Math.floor((distance % _month) / _week);
 	var days = Math.floor((distance % _week) / _day);
-    	var hours = Math.floor((distance % _day) / _hour);
-    	var minutes = Math.floor((distance % _hour) / _minute);
-    	var seconds = Math.floor((distance % _minute) / _second);	
+  	var hours = Math.floor((distance % _day) / _hour);
+   	var minutes = Math.floor((distance % _hour) / _minute);
+   	var seconds = Math.floor((distance % _minute) / _second);	
 
-	document.getElementById("seconds").innerHTML = ('0' + seconds).slice(-2);
-	document.getElementById("minutes").innerHTML = ('0' + minutes).slice(-2);
-	document.getElementById("hours").innerHTML = hours;
-	document.getElementById("days").innerHTML = days;
-	document.getElementById("weeks").innerHTML = weeks;
+	seconds = ('0' + seconds).slice(-2);
+	minutes = ('0' + minutes).slice(-2);
+
+	return [years, months, weeks, days, hours, minutes, seconds];
 }
 
-var birth = new Date('06/23/2019 00:00 AM EST');
+function setTime() {
+	var people = ['q', 'w'];
+    var births = ['06/20/2017 00:00 AM EST', '06/16/2019 00:00 AM EST'];
+
+	var person, birthday, age;
+    for (person in people) {
+    	name = people[person];
+		birthday = births[ person ];
+		age = calcTime(birthday);
+		console.log(name + ": " + birthday)
+
+		document.getElementById(name + "Seconds").innerHTML = age[6];
+		document.getElementById(name + "Minutes").innerHTML = age[5];
+		document.getElementById(name + "Hours").innerHTML   = age[4];
+		document.getElementById(name + "Days").innerHTML    = age[3];
+		document.getElementById(name + "Weeks").innerHTML   = age[2];
+		document.getElementById(name + "Months").innerHTML  = age[1];
+		document.getElementById(name + "Years").innerHTML   = age[0];
+	}
+}
 
 setTime();
 setInterval(setTime, 1000);
